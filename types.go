@@ -40,17 +40,18 @@ type (
 
 	// Authorization rhttps://developer.paypal.com/webapps/developer/docs/api/#authorization-object
 	Authorization struct {
-		Amount                    *Amount    `json:"amount,omitempty"`
-		CreateTime                *time.Time `json:"create_time,omitempty"`
-		UpdateTime                *time.Time `json:"update_time,omitempty"`
-		State                     string     `json:"state,omitempty"`
-		ParentPayment             string     `json:"parent_payment,omitempty"`
-		ID                        string     `json:"id,omitempty"`
-		ValidUntil                *time.Time `json:"valid_until,omitempty"`
-		Links                     []Links    `json:"links,omitempty"`
-		ClearingTime              string     `json:"clearing_time,omitempty"`
-		ProtectionEligibility     string     `json:"protection_eligibility,omitempty"`
-		ProtectionEligibilityType string     `json:"protection_eligibility_type,omitempty"`
+		Amount                    *Amount           `json:"amount,omitempty"`
+		CreateTime                *time.Time        `json:"create_time,omitempty"`
+		UpdateTime                *time.Time        `json:"update_time,omitempty"`
+		State                     string            `json:"state,omitempty"`
+		ParentPayment             string            `json:"parent_payment,omitempty"`
+		ID                        string            `json:"id,omitempty"`
+		ValidUntil                *time.Time        `json:"valid_until,omitempty"`
+		Links                     []Links           `json:"links,omitempty"`
+		ClearingTime              string            `json:"clearing_time,omitempty"`
+		ProtectionEligibility     string            `json:"protection_eligibility,omitempty"`
+		ProtectionEligibilityType string            `json:"protection_eligibility_type,omitempty"`
+		RelatedResources          *RelatedResources `json:"related_resources,omitempty"`
 	}
 
 	// BatchHeader https://developer.paypal.com/docs/integration/direct/create-single-payout/
@@ -66,14 +67,15 @@ type (
 
 	// Capture https://developer.paypal.com/webapps/developer/docs/api/#capture-object
 	Capture struct {
-		Amount         *Amount    `json:"amount,omitempty"`
-		IsFinalCapture bool       `json:"is_final_capture"`
-		CreateTime     *time.Time `json:"create_time,omitempty"`
-		UpdateTime     *time.Time `json:"update_time,omitempty"`
-		State          string     `json:"state,omitempty"`
-		ParentPayment  string     `json:"parent_payment,omitempty"`
-		ID             string     `json:"id,omitempty"`
-		Links          []Links    `json:"links,omitempty"`
+		Amount           *Amount           `json:"amount,omitempty"`
+		IsFinalCapture   bool              `json:"is_final_capture"`
+		CreateTime       *time.Time        `json:"create_time,omitempty"`
+		UpdateTime       *time.Time        `json:"update_time,omitempty"`
+		State            string            `json:"state,omitempty"`
+		ParentPayment    string            `json:"parent_payment,omitempty"`
+		ID               string            `json:"id,omitempty"`
+		Links            []Links           `json:"links,omitempty"`
+		RelatedResources *RelatedResources `json:"related_resources,omitempty"`
 	}
 
 	// Client represents a Paypal REST API Client
@@ -173,14 +175,15 @@ type (
 
 	// Order https://developer.paypal.com/webapps/developer/docs/api/#order-object
 	Order struct {
-		ID            string     `json:"id,omitempty"`
-		CreateTime    *time.Time `json:"create_time,omitempty"`
-		UpdateTime    *time.Time `json:"update_time,omitempty"`
-		State         string     `json:"state,omitempty"`
-		Amount        *Amount    `json:"amount,omitempty"`
-		PendingReason string     `json:"pending_reason,omitempty"`
-		ParentPayment string     `json:"parent_payment,omitempty"`
-		Links         []Links    `json:"links,omitempty"`
+		ID               string            `json:"id,omitempty"`
+		CreateTime       *time.Time        `json:"create_time,omitempty"`
+		UpdateTime       *time.Time        `json:"update_time,omitempty"`
+		State            string            `json:"state,omitempty"`
+		Amount           *Amount           `json:"amount,omitempty"`
+		PendingReason    string            `json:"pending_reason,omitempty"`
+		ParentPayment    string            `json:"parent_payment,omitempty"`
+		Links            []Links           `json:"links,omitempty"`
+		RelatedResources *RelatedResources `json:"related_resources,omitempty"`
 	}
 
 	// Payer https://developer.paypal.com/webapps/developer/docs/api/#payer-object
@@ -205,15 +208,16 @@ type (
 
 	// Payment https://developer.paypal.com/webapps/developer/docs/api/#payment-object
 	Payment struct {
-		Intent              string        `json:"intent"`
-		Payer               *Payer        `json:"payer"`
-		Transactions        []Transaction `json:"transactions"`
-		RedirectURLs        *RedirectURLs `json:"redirect_urls,omitempty"`
-		ID                  string        `json:"id,omitempty"`
-		CreateTime          *time.Time    `json:"create_time,omitempty"`
-		State               string        `json:"state,omitempty"`
-		UpdateTime          *time.Time    `json:"update_time,omitempty"`
-		ExperienceProfileID string        `json:"experience_profile_id,omitempty"`
+		Intent              string            `json:"intent"`
+		Payer               *Payer            `json:"payer"`
+		Transactions        []Transaction     `json:"transactions"`
+		RedirectURLs        *RedirectURLs     `json:"redirect_urls,omitempty"`
+		ID                  string            `json:"id,omitempty"`
+		CreateTime          *time.Time        `json:"create_time,omitempty"`
+		State               string            `json:"state,omitempty"`
+		UpdateTime          *time.Time        `json:"update_time,omitempty"`
+		ExperienceProfileID string            `json:"experience_profile_id,omitempty"`
+		RelatedResources    *RelatedResources `json:"related_resources,omitempty"`
 	}
 
 	// PaymentLink https://developer.paypal.com/webapps/developer/docs/api/#paymentlink-object
@@ -279,22 +283,33 @@ type (
 		UpdateTime    *time.Time `json:"update_time,omitempty"`
 	}
 
+	// RelatedResources can be attached to any resource in order to include them within a response
+	RelatedResources struct {
+		Authorization *Authorization `json:"authorization,omitempty"`
+		Capture       *Capture       `json:"capture,omitempty"`
+		Order         *Order         `json:"order,omitempty"`
+		ParentPayment *Payment       `json:"payment,omitempty"`
+		Payment       *Payment       `json:"payment,omitempty"`
+		Sale          *Sale          `json:"sale,omitempty"`
+	}
+
 	// Sale https://developer.paypal.com/webapps/developer/docs/api/#sale-object
 	Sale struct {
-		ID                        string     `json:"id,omitempty"`
-		Amount                    *Amount    `json:"amount,omitempty"`
-		Description               string     `json:"description,omitempty"`
-		CreateTime                *time.Time `json:"create_time,omitempty"`
-		State                     string     `json:"state,omitempty"`
-		ParentPayment             string     `json:"parent_payment,omitempty"`
-		UpdateTime                *time.Time `json:"update_time,omitempty"`
-		PaymentMode               string     `json:"payment_mode,omitempty"`
-		PendingReason             string     `json:"pending_reason,omitempty"`
-		ReasonCode                string     `json:"reason_code,omitempty"`
-		ClearingTime              string     `json:"clearing_time,omitempty"`
-		ProtectionEligibility     string     `json:"protection_eligibility,omitempty"`
-		ProtectionEligibilityType string     `json:"protection_eligibility_type,omitempty"`
-		Links                     []Links    `json:"links,omitempty"`
+		ID                        string            `json:"id,omitempty"`
+		Amount                    *Amount           `json:"amount,omitempty"`
+		Description               string            `json:"description,omitempty"`
+		CreateTime                *time.Time        `json:"create_time,omitempty"`
+		State                     string            `json:"state,omitempty"`
+		ParentPayment             string            `json:"parent_payment,omitempty"`
+		UpdateTime                *time.Time        `json:"update_time,omitempty"`
+		PaymentMode               string            `json:"payment_mode,omitempty"`
+		PendingReason             string            `json:"pending_reason,omitempty"`
+		ReasonCode                string            `json:"reason_code,omitempty"`
+		ClearingTime              string            `json:"clearing_time,omitempty"`
+		ProtectionEligibility     string            `json:"protection_eligibility,omitempty"`
+		ProtectionEligibilityType string            `json:"protection_eligibility_type,omitempty"`
+		Links                     []Links           `json:"links,omitempty"`
+		RelatedResources          *RelatedResources `json:"related_resources,omitempty"`
 	}
 
 	// SenderBatchHeader https://developer.paypal.com/docs/integration/direct/create-single-payout/
@@ -324,12 +339,13 @@ type (
 
 	// Transaction https://developer.paypal.com/webapps/developer/docs/api/#transaction-object
 	Transaction struct {
-		Amount         *Amount   `json:"amount"`
-		Description    string    `json:"description,omitempty"`
-		ItemList       *ItemList `json:"item_list,omitempty"`
-		InvoiceNumber  string    `json:"invoice_number,omitempty"`
-		Custom         string    `json:"custom,omitempty"`
-		SoftDescriptor string    `json:"soft_descriptor,omitempty"`
+		Amount           *Amount           `json:"amount"`
+		Description      string            `json:"description,omitempty"`
+		ItemList         *ItemList         `json:"item_list,omitempty"`
+		InvoiceNumber    string            `json:"invoice_number,omitempty"`
+		Custom           string            `json:"custom,omitempty"`
+		SoftDescriptor   string            `json:"soft_descriptor,omitempty"`
+		RelatedResources *RelatedResources `json:"related_resources,omitempty"`
 	}
 
 	// UserInfo https://developer.paypal.com/webapps/developer/docs/api/#userinfo-object
