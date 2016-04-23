@@ -283,15 +283,11 @@ type (
 		UpdateTime    *time.Time `json:"update_time,omitempty"`
 	}
 
-	// RelatedResources can be attached to any resource in order to include them within a response
-	RelatedResources struct {
-		Authorization *Authorization `json:"authorization,omitempty"`
-		Capture       *Capture       `json:"capture,omitempty"`
-		Order         *Order         `json:"order,omitempty"`
-		ParentPayment *Payment       `json:"payment,omitempty"`
-		Payment       *Payment       `json:"payment,omitempty"`
-		Sale          *Sale          `json:"sale,omitempty"`
-	}
+	// RelatedResource is one of many types of resources that may be returned with a PayPal response.
+	RelatedResource map[string]interface{}
+
+	// RelatedResources is a collection of objects that may be returned with a PayPal response.
+	RelatedResources []RelatedResource
 
 	// Sale https://developer.paypal.com/webapps/developer/docs/api/#sale-object
 	Sale struct {
