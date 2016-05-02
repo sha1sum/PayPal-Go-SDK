@@ -84,6 +84,7 @@ type (
 		ClientID string
 		Secret   string
 		APIBase  string
+		PartnerAttributionID string
 		LogFile  string // If user set log file name all requests will be logged there
 		Token    *TokenResponse
 	}
