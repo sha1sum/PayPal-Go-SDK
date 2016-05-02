@@ -24,6 +24,7 @@ func NewClient(clientID string, secret string, APIBase string) (*Client, error) 
 		secret,
 		APIBase,
 		"",
+		"",
 		nil,
 	}, nil
 }
