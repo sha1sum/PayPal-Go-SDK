@@ -45,6 +45,13 @@ func (c *Client) SetAccessToken(token string) error {
 	return nil
 }
 
+// SetPartnerAttributionID sets a PayPal partner ID for revenue attribution
+func (c *Client) SetPartnerAttributionID(id string) error {
+	c.PartnerAttributionID = id
+
+	return nil
+}
+
 // Send makes a request to the API, the response body will be
 // unmarshaled into v, or if v is an io.Writer, the response will
 // be written to it without decoding
@@ -97,6 +104,9 @@ func (c *Client) Send(req *http.Request, v interface{}) error {
 func (c *Client) SendWithAuth(req *http.Request, v interface{}) error {
 	if c.Token != nil {
 		req.Header.Set("Authorization", "Bearer "+c.Token.Token)
+	}
+	if c.PartnerAttributionID != "" {
+		req.Header.Set("PayPal-Partner-Attribution-Id", c.PartnerAttributionID)
 	}
 
 	return c.Send(req, v)
